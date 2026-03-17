@@ -93,6 +93,38 @@ def fill_enquiry_table(table, pension, movable, other_income, fin_pos, remarks):
                     para.add_run(val)
 
 
+def validate_inputs(inputs: dict, family_rows: list) -> list:
+    errors = []
+    
+    # Validation for top level inputs being non-empty
+    required_keys = {
+        'lr_no': 'Lr. No. (Certificate)', 'note_lr_no': 'Lr. No. (Note File)', 'dated': 'Dated',
+        'tahsildar_lr': 'Tahsildar Lr. No.', 'tahsildar_dt': 'Tahsildar Lr. Dated', 'mandal': 'Mandal',
+        'applicant_name': 'Applicant Full Name', 'deceased_name': 'Deceased Name', 'address': 'Full Address',
+        'dec_father': "Deceased's Father Name", 'designation': 'Designation / Post',
+        'old_office': 'Old Office Name', 'new_office': 'Renamed / Current Office Name',
+        'date_of_death': 'Date of Death', 'pension': 'Pension Receiving', 'movable': 'Movable Properties',
+        'other_income': 'Other Source of Income', 'remarks': 'Remarks'
+    }
+    
+    for key, label in required_keys.items():
+        if not inputs.get(key, "").strip():
+            errors.append(f"'{label}' cannot be empty.")
+            
+    # Validation for family rows
+    for i, row in enumerate(family_rows):
+        if not row['name'].strip():
+            errors.append(f"Family Member {i+1}: Name cannot be empty.")
+        if not row['age'].strip():
+            errors.append(f"Family Member {i+1}: Age cannot be empty.")
+        elif not row['age'].strip().isdigit():
+            errors.append(f"Family Member {i+1}: Age must be a valid positive number.")
+        if not row['relation'].strip():
+            errors.append(f"Family Member {i+1}: Relation cannot be empty.")
+            
+    return errors
+
+
 def generate_doc(inputs: dict, family_rows: list) -> bytes:
     doc = Document(TEMPLATE_PATH)
     f = inputs
@@ -248,15 +280,20 @@ if st.button("🖨️  Generate Filled Certificate (.docx)", type="primary", use
         fin_pos=fin_pos, remarks=remarks,
     )
     try:
-        doc_bytes = generate_doc(inputs, family_rows)
-        st.success("✅ Document generated successfully!")
-        st.download_button(
-            label="⬇️  Download Filled Certificate",
-            data=doc_bytes,
-            file_name="Financial_Status_Certificate_Filled.docx",
-            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            use_container_width=True,
-        )
+        errors = validate_inputs(inputs, family_rows)
+        if errors:
+            for error in errors:
+                st.error(f"❌ {error}")
+        else:
+            doc_bytes = generate_doc(inputs, family_rows)
+            st.success("✅ Document generated successfully!")
+            st.download_button(
+                label="⬇️  Download Filled Certificate",
+                data=doc_bytes,
+                file_name="Financial_Status_Certificate_Filled.docx",
+                mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                use_container_width=True,
+            )
     except Exception as e:
         st.error(f"❌ Error: {e}")
         st.exception(e)

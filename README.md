@@ -12,6 +12,7 @@ A Streamlit web app that takes a **Government of Telangana Financial Status Cert
 |------|---------|
 | `app.py` | Streamlit app (UI + document generation logic) |
 | `Mohd_Aslam__1_.docx` | Original `.docx` template — **do not modify** |
+| `test_app.py` | Automated test suite for document generation logic |
 | `requirements.txt` | Python dependencies |
 | `README.md` | This file |
 
@@ -52,6 +53,12 @@ streamlit run app.py
 
 The app opens at `http://localhost:8501` in your browser.
 
+### Step 5 — Run the Tests (Optional)
+
+```bash
+python -m unittest test_app.py
+```
+
 ---
 
 ## How to Use the App
@@ -75,8 +82,9 @@ The UI has **5 sections**:
 - Pension status, Movable Property, Other Income, Financial Position (dropdown), Remarks
 
 ### 5️⃣  Family Members Table
-- Choose number of members (1–10)
+- Click **➕ Add** or **➖ Remove** to flexibly include as many family members as needed. The template dynamically expands or shrinks safely.
 - For each: Name, Age, Relation, Marital Status, Occupation, Education, Income/Month
+- **Validation**: All critical fields act as required fields. Specific elements like 'Age' are strictly validated to be actual digits before a certificate is generated.
 
 ### Generate
 Click **🖨️ Generate Filled Certificate (.docx)** → download button appears instantly.
