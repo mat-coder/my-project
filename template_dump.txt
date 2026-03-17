@@ -1,0 +1,13 @@
+﻿=== PARAGRAPHS ===
+P0: [NOTE FILE]
+P1: []
+P2: [Lr.No.G/______ /2026				          Date:     -     -2026]
+P3: []
+P4: []
+P5: [                                                       *****]
+P6: [Kindly peruse the reference cited, wherein the Tahsildar __________________ (M) has submitted proposals for issuance of Birth/Death/Caste Certificate of Sri._________________________ W/o,S/o,D/o__________________________ ,R/o__________________________________ Village, ________________Mandal, Vide LRBD/CND No.___________________________________________. The applicant caste is._____________________________]
+P7: [Therefore, If agreed maybe issued Birth/Death/Caste certificate based on the TahsildarÆs  report either approved or rejected. In the Meeseva Portal.]
+P8: [Cause of Rejection.	]
+P9: []
+P10: [Sec						D.A.O		     	          	R.D.O]
+P11: []
